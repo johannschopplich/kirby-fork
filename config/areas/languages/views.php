@@ -16,8 +16,8 @@ return [
 			$language     = Find::language($code);
 			$link         = '/languages/' . $language->code();
 			$strings      = [];
-			$foundation   = $kirby->defaultLanguage()->translations();
-			$translations = $language->translations();
+			$foundation   = $kirby->defaultLanguage()->translations()->toArray();
+			$translations = $language->translations()->toArray();
 
 			ksort($foundation);
 
