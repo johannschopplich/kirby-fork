@@ -31,8 +31,11 @@ trait PageActions
 	 * of copy objects for single or multilang environments
 	 * @internal
 	 */
-	protected function adaptCopy(Page $copy, bool $files = false, bool $children = false): Page
-	{
+	protected function adaptCopy(
+		Page $copy,
+		bool $files = false,
+		bool $children = false
+	): Page {
 		if ($this->kirby()->multilang() === true) {
 			foreach ($this->kirby()->languages() as $language) {
 				// overwrite with new UUID for the page and files
@@ -41,20 +44,27 @@ trait PageActions
 					Uuids::enabled() === true &&
 					$language->isDefault() === true
 				) {
-					$copy = $copy->save(['uuid' => Uuid::generate()], $language->code());
+					$copy = $copy->save(
+						['uuid' => Uuid::generate()],
+						$language->code()
+					);
 
 					// regenerate UUIDs of page files
 					if ($files !== false) {
 						foreach ($copy->files() as $file) {
-							$file->save(['uuid' => Uuid::generate()], $language->code());
+							$file->save(
+								['uuid' => Uuid::generate()],
+								$language->code()
+							);
 						}
 					}
 
 					// regenerate UUIDs of all page children
 					if ($children !== false) {
 						foreach ($copy->index(true) as $child) {
-							// always adapt files of subpages as they are currently always copied;
-							// but don't adapt children because we already operate on the index
+							// always adapt files of subpages as they are
+							// currently always copied; but don't adapt
+							// children because we already operate on the index
 							$this->adaptCopy($child, true);
 						}
 					}
@@ -86,8 +96,9 @@ trait PageActions
 			// regenerate UUIDs of all page children
 			if ($children !== false) {
 				foreach ($copy->index(true) as $child) {
-					// always adapt files of subpages as they are currently always copied;
-					// but don't adapt children because we already operate on the index
+					// always adapt files of subpages as they are currently
+					// always copied; but don't adapt children because we
+					// already operate on the index
 					$this->adaptCopy($child, true);
 				}
 			}
