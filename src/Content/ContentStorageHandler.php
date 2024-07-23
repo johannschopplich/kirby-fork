@@ -75,6 +75,8 @@ interface ContentStorageHandler
 	 */
 	public function read(string $version, string $lang): array;
 
+	public function replace(string $version, string $lang, array $search, array $replace): void;
+
 	/**
 	 * Updates the modification timestamp of an existing version
 	 *

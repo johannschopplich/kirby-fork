@@ -217,6 +217,15 @@ class ContentStorage
 		return $this->handler->read($version, $lang);
 	}
 
+	public function replace(
+		array $search,
+		array $replace
+	): void {
+		foreach ($this->all() as $version => $lang) {
+			$this->handler->replace($version, $lang, $search, $replace);
+		}
+	}
+
 	/**
 	 * Updates the modification timestamp of an existing version
 	 *

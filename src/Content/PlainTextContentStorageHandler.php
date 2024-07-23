@@ -128,6 +128,13 @@ class PlainTextContentStorageHandler implements ContentStorageHandler
 		return Data::read($this->contentFile($version, $lang));
 	}
 
+	public function replace(string $version, string $lang, array $search, array $replace): void
+	{
+		$file = $this->contentFile($version, $lang);
+		F::replace($file, $search, $replace);
+	}
+
+
 	/**
 	 * Updates the modification timestamp of an existing version
 	 *
