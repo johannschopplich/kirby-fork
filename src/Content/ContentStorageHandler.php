@@ -75,7 +75,19 @@ interface ContentStorageHandler
 	 */
 	public function read(string $version, string $lang): array;
 
-	public function replace(string $version, string $lang, array $search, array $replace): void;
+	/**
+	 * Searches and replaces one or multiple strings in all versions
+	 *
+	 * @param string $lang Code `'default'` in a single-lang installation
+	 * @param array $map search-replace mapping where all keys are replaced by their values
+	 *
+	 *  @throws \Kirby\Exception\NotFoundException If the version does not exist
+	 */
+	public function replace(
+		string $version,
+		string $lang,
+		array $map
+	): void;
 
 	/**
 	 * Updates the modification timestamp of an existing version

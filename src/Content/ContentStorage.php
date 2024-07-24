@@ -217,12 +217,14 @@ class ContentStorage
 		return $this->handler->read($version, $lang);
 	}
 
-	public function replace(
-		array $search,
-		array $replace
-	): void {
+	/**
+	 * Searches and replaces one or multiple strings in all versions
+	 *
+	 * @param array $map search-replace mapping where all keys are replaced by their values
+	 */
+	public function replace(array $map): void {
 		foreach ($this->all() as $version => $lang) {
-			$this->handler->replace($version, $lang, $search, $replace);
+			$this->handler->replace($version, $lang, $map);
 		}
 	}
 
