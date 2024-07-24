@@ -364,13 +364,13 @@ trait PageActions
 	 */
 	public function copy(array $options = []): static
 	{
-		$slug        = $options['slug']      ?? $this->slug();
-		$isDraft     = $options['isDraft']   ?? $this->isDraft();
-		$parent      = $options['parent']    ?? null;
-		$parentModel = $options['parent']    ?? $this->site();
-		$num         = $options['num']       ?? null;
-		$children    = $options['children']  ?? false;
-		$files       = $options['files']     ?? false;
+		$slug        = $options['slug']     ?? $this->slug();
+		$isDraft     = $options['isDraft']  ?? $this->isDraft();
+		$parent      = $options['parent']   ?? null;
+		$parentModel = $options['parent']   ?? $this->site();
+		$num         = $options['num']      ?? null;
+		$children    = $options['children'] ?? false;
+		$files       = $options['files']    ?? false;
 
 		// clean up the slug
 		$slug = Str::slug($slug);
@@ -411,7 +411,12 @@ trait PageActions
 		$copy = $parentModel->clone()->findPageOrDraft($slug);
 
 		// normalize copy object
-		$copy = PageCopy::for($copy, $files, $children);
+		$copy = PageCopy::for(
+			copy: $copy,
+			original: $this,
+			files: $files,
+			children: $children
+		);
 
 		// add copy to siblings
 		static::updateParentCollections($copy, 'append', $parentModel);
