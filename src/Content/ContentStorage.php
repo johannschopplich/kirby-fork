@@ -222,7 +222,8 @@ class ContentStorage
 	 *
 	 * @param array $map search-replace mapping where all keys are replaced by their values
 	 */
-	public function replace(array $map): void {
+	public function replace(array $map): void
+	{
 		foreach ($this->all() as $version => $lang) {
 			$this->handler->replace($version, $lang, $map);
 		}
