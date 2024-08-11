@@ -7,6 +7,7 @@ use Kirby\Exception\Exception;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\LogicException;
 use Kirby\Filesystem\F;
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\Locale;
 use Kirby\Toolkit\Str;
 use Throwable;
@@ -203,7 +204,7 @@ class Language
 	 */
 	public function delete(): bool
 	{
-		$kirby = App::instance();
+		$kirby = $this->kirby();
 		$code  = $this->code();
 
 		if ($this->isDeletable() === false) {
@@ -364,7 +365,20 @@ class Language
 		$path = $this->path();
 
 		if (empty($path) === true) {
-			return '(:all)';
+			$pattern = '(:all)';
+
+			// match anything except paths that begin with the prefix
+			// of any other language
+			$languages = $this->kirby()->languages()->not($this)->values(
+				fn ($language) => $language->path()
+			);
+
+			if (count($languages) > 0) {
+				$pattern = '^(?!(?:' . A::join($languages, '|') . ')\/)' . $pattern;
+			}
+
+
+			return $pattern;
 		}
 
 		return $path . '/(:all?)';
@@ -503,7 +517,7 @@ class Language
 		// make sure the slug is nice and clean
 		$props['slug'] = Str::slug($props['slug'] ?? null);
 
-		$kirby   = App::instance();
+		$kirby   = $this->kirby();
 		$updated = $this->clone($props);
 
 		if (isset($props['translations']) === true) {
