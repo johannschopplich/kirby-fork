@@ -37,6 +37,19 @@ class LanguageRoutesTest extends TestCase
 	public function testFallback()
 	{
 		$app = $this->app->clone([
+			'languages' => [
+				[
+					'code'    => 'fr',
+					'name'    => 'French',
+					'default' => true,
+					'url'     => '/',
+				],
+				[
+					'code'    => 'en',
+					'name'    => 'English',
+					'url'     => '/en',
+				],
+			],
 			'site' => [
 				'children' => [
 					[
@@ -48,10 +61,10 @@ class LanguageRoutesTest extends TestCase
 		]);
 
 		$app->call('notes');
-		$this->assertSame($app->language()->code(), 'en');
+		$this->assertSame($app->language()->code(), 'fr');
 
-		$app->call('de/notes');
-		$this->assertSame($app->language()->code(), 'de');
+		$app->call('en/notes');
+		$this->assertSame($app->language()->code(), 'en');
 	}
 
 	public function testNotNextWhenFalsyReturn()
