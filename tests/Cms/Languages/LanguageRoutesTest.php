@@ -7,6 +7,7 @@ use Kirby\TestCase;
 class LanguageRoutesTest extends TestCase
 {
 	protected $app;
+	public const FIXTURES = __DIR__ . '/fixtures';
 
 	public function setUp(): void
 	{
@@ -65,6 +66,52 @@ class LanguageRoutesTest extends TestCase
 
 		$app->call('en/notes');
 		$this->assertSame($app->language()->code(), 'en');
+	}
+
+	public static function languagePrefixProvider(): array {
+		return [
+			['not-exists', 'Erreur'],
+			['en/not-exists', 'Error']
+		];
+	}
+
+	/**
+	 * @dataProvider languagePrefixProvider
+	 */
+	public function testLanguagePrefix($path, $body)
+	{
+		$app = new App([
+			'roots' => [
+				'index'     => static::FIXTURES,
+				'languages' => static::FIXTURES . '/languages',
+				'templates' => static::FIXTURES . '/templates'
+			],
+			'site' => [
+				'children' => [
+					[
+						'slug'     	   => 'error',
+						'template' 	   => 'error',
+						'translations' => [
+							[
+								'code'    => 'fr',
+								'content' => [
+									'title' => 'Erreur'
+								]
+							],
+							[
+								'code'    => 'en',
+								'content' => [
+									'title' => 'Error'
+								]
+							]
+						]
+					]
+				]
+			]
+		]);
+
+
+		$this->assertSame($body, $app->render($path)->body());
 	}
 
 	public function testNotNextWhenFalsyReturn()
