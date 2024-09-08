@@ -151,7 +151,7 @@ class RolesTest extends TestCase
 
 		$this->assertInstanceOf(Roles::class, $roles);
 		$this->assertCount(2, $roles);
-		$this->assertCount(1, $canBeChanged);
+		$this->assertCount(2, $canBeChanged);
 	}
 
 	public function testCanBeCreated()
