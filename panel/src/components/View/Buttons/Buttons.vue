@@ -4,7 +4,11 @@
 			:is="component(button)"
 			v-for="button in buttons"
 			:key="button.key"
-			v-bind="button.props"
+			v-bind="{
+				...button.props,
+				size: button.prop?.size ?? size,
+				variant: button.prop?.variant ?? variant
+			}"
 			@action="$emit('action', $event)"
 		/>
 	</k-button-group>
@@ -24,7 +28,9 @@ export default {
 		buttons: {
 			type: Array,
 			default: () => []
-		}
+		},
+		size: String,
+		variant: String
 	},
 	emits: ["action"],
 	methods: {

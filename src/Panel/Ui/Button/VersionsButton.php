@@ -35,7 +35,11 @@ class VersionsButton extends ViewButton
 
 	public function icon(): string
 	{
-		return $this->versionId === 'compare' ? 'layout-columns' : 'git-branch';
+		return match ($this->versionId) {
+			'compare' => 'layout-columns',
+			'edit'    => 'edit-line',
+			default   => 'git-branch'
+		};
 	}
 
 	public function isCurrent(string $versionId): bool
@@ -47,6 +51,19 @@ class VersionsButton extends ViewButton
 	{
 		return [
 			[
+				'label'   => $this->i18n('version.edit'),
+				'icon'    => 'edit-line',
+				'link'    => $this->url('edit'),
+				'current' => $this->isCurrent('edit')
+			],
+			[
+				'label'   => $this->i18n('version.compare'),
+				'icon'    => 'layout-columns',
+				'link'    => $this->url('compare'),
+				'current' => $this->isCurrent('compare')
+			],
+			'-',
+			[
 				'label'   => $this->i18n('version.latest'),
 				'icon'    => 'git-branch',
 				'link'    => $this->url('latest'),
@@ -57,14 +74,7 @@ class VersionsButton extends ViewButton
 				'icon'    => 'git-branch',
 				'link'    => $this->url('changes'),
 				'current' => $this->isCurrent('changes')
-			],
-			'-',
-			[
-				'label'   => $this->i18n('version.compare'),
-				'icon'    => 'layout-columns',
-				'link'    => $this->url('compare'),
-				'current' => $this->isCurrent('compare')
-			],
+			]
 
 		];
 	}
@@ -93,8 +103,9 @@ class VersionsButton extends ViewButton
 	public function versionId(): string
 	{
 		return match ($this->versionId) {
-			'compare' => 'compare',
-			default   => VersionId::from($this->versionId)->value()
+			'changes',
+			'latest'  => VersionId::from($this->versionId)->value(),
+			default   => $this->versionId
 		};
 	}
 }

@@ -316,7 +316,8 @@ class State
 	{
 		return [
 			'api'  => $this->kirby->url('api'),
-			'site' => $this->kirby->url('index')
+			'panel' => $this->kirby->url('panel'),
+			'site'  => $this->kirby->url('index')
 		];
 	}
 
