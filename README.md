@@ -1,4 +1,9 @@
-[<img src="https://getkirby.com/assets/images/github/kirby.jpg" width="300">](https://getkirby.com)
+<a href="https://getkirby.com">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/logos.svg#kirby-dark">
+  <img alt="Kirby CMS" width="180" height="63" src=".github/logos.svg#kirby-light">
+</picture>
+</a><br><br>
 
 [![Release](https://img.shields.io/github/v/release/getkirby/kirby)](https://github.com/getkirby/kirby/releases/latest)
 [![CI Status](https://img.shields.io/github/actions/workflow/status/getkirby/kirby/ci.yml?branch=main&label=CI)](https://github.com/getkirby/kirby/actions?query=workflow%3ACI+branch%3Amain)
