@@ -72,7 +72,8 @@ export default {
 	margin-top: var(--spacing-3);
 }
 .k-lab-example .k-box {
-	padding: var(--spacing-3);
+	padding-block: var(--spacing-3);
+	justify-content: center;
 	font-size: var(--text-xs);
 	font-family: var(--font-mono);
 	border-radius: var(--rounded);
