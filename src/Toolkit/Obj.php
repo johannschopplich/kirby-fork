@@ -57,7 +57,7 @@ class Obj extends stdClass
 	 */
 	public function get(string|array $property, $fallback = null)
 	{
-		if (is_array($property)) {
+		if (is_array($property) === true) {
 			$fallback ??= [];
 
 			if (is_array($fallback) === false) {
