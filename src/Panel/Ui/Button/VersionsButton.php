@@ -2,6 +2,7 @@
 
 namespace Kirby\Panel\Ui\Button;
 
+use Kirby\Cms\App;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Content\VersionId;
 use Kirby\Http\Uri;
@@ -80,6 +81,11 @@ class VersionsButton extends ViewButton
 	{
 		$url = $this->model->panel()->url(true) . '/preview/' . $versionId;
 		$url = new Uri($url);
+
+		// preserve _params and _query
+		$kirby               = App::instance();
+		$url->query->_params = $kirby->request()->get('_params');
+		$url->query->_query  = $kirby->request()->get('_query');
 
 		return $url->toString();
 	}
