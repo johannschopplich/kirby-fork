@@ -5,6 +5,7 @@
 				<k-icon type="git-branch" />
 				{{ label }}
 			</k-headline>
+			<slot name="header" />
 			<k-button-group>
 				<template v-if="versionId === 'changes'">
 					<p v-if="hasDiff === false" class="k-preview-browser-message">

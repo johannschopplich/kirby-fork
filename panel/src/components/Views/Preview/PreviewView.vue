@@ -24,27 +24,6 @@
 				</k-dropdown>
 			</k-button-group>
 
-			<k-button-group v-if="versionId === 'edit'" layout="collapsed">
-				<k-button
-					icon="mobile"
-					size="sm"
-					variant="filled"
-					@click="viewport('small')"
-				/>
-				<k-button
-					icon="tablet"
-					size="sm"
-					variant="filled"
-					@click="viewport('medium')"
-				/>
-				<k-button
-					icon="display"
-					size="sm"
-					variant="filled"
-					@click="viewport('large')"
-				/>
-			</k-button-group>
-
 			<k-button-group>
 				<k-view-buttons :buttons="buttons" />
 			</k-button-group>
@@ -57,7 +36,30 @@
 					@discard="onDiscard"
 					@navigate="onNavigate"
 					@submit="onSubmit"
-				/>
+				>
+					<template #header>
+						<k-button-group layout="collapsed" class="k-preview-viewport">
+							<k-button
+								:current="view === 'small'"
+								icon="mobile"
+								size="xs"
+								@click="viewport('small')"
+							/>
+							<k-button
+								:current="view === 'medium'"
+								icon="tablet"
+								size="xs"
+								@click="viewport('medium')"
+							/>
+							<k-button
+								:current="view === 'large'"
+								icon="display"
+								size="xs"
+								@click="viewport('large')"
+							/>
+						</k-button-group>
+					</template>
+				</k-preview-browser>
 				<k-preview-fields
 					:api="api"
 					:blueprint="blueprint"
@@ -234,5 +236,9 @@ export default {
 }
 .k-preview-view-grid[data-view="large"] .k-preview-fields {
 	flex-basis: 33.33%;
+}
+
+.k-preview-viewport .k-button[aria-current="true"] {
+	--button-color-back: var(--color-blue-300);
 }
 </style>
