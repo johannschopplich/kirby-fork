@@ -30,6 +30,16 @@
 		</header>
 		<main class="k-preview-view-grid" :data-view="view">
 			<template v-if="versionId === 'edit'">
+				<k-preview-fields
+					:api="api"
+					:blueprint="blueprint"
+					:buttons="foo"
+					:content="content"
+					:tabs="tabs"
+					:tab="tab"
+					@input="onInput"
+					@submit="onSubmit"
+				/>
 				<k-preview-browser
 					ref="browser"
 					v-bind="browserProps('changes')"
@@ -60,16 +70,6 @@
 						</k-button-group>
 					</template>
 				</k-preview-browser>
-				<k-preview-fields
-					:api="api"
-					:blueprint="blueprint"
-					:buttons="foo"
-					:content="content"
-					:tabs="tabs"
-					:tab="tab"
-					@input="onInput"
-					@submit="onSubmit"
-				/>
 			</template>
 			<template v-else-if="versionId === 'compare'">
 				<k-preview-browser
