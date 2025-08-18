@@ -21,35 +21,48 @@ class VersionsButton extends ViewButton
 {
 	public function __construct(
 		ModelWithContent $model,
-		public VersionId|string $versionId = 'latest'
+		public string $mode = 'latest'
 	) {
 		parent::__construct(
 			model: $model,
 			class: 'k-versions-view-button',
 			icon: $this->icon(),
-			text: I18n::translate('version.' . $this->versionId()),
+			text: $this->i18n('version.' . $this->mode()),
 		);
 	}
 
 	/**
-	 * Returns the button icon based on the version ID
+	 * Returns the button icon based on the view's mode
 	 * @since 5.1.0
 	 */
 	public function icon(): string
 	{
-		return match ($this->versionId) {
+		return match ($this->mode) {
 			'compare' => 'layout-columns',
 			default   => 'git-branch',
 		};
 	}
 
 	/**
-	 * Whether the given version ID is the current version ID
+	 * Whether the given mode is the current mode
 	 * @since 5.1.0
 	 */
-	public function isCurrent(string $versionId): bool
+	public function isCurrent(string $mode): bool
 	{
-		return $this->versionId() === $versionId;
+		return $this->mode() === $mode;
+	}
+
+	/**
+	 * Returns the view's mode using the proper
+	 * values for version IDs
+	 * @since 5.1.0
+	 */
+	public function mode(): string
+	{
+		return match ($this->mode) {
+			'compare' => 'compare',
+			default   => VersionId::from($this->mode)->value()
+		};
 	}
 
 	/**
@@ -97,17 +110,5 @@ class VersionsButton extends ViewButton
 	public function url(string $versionId): string
 	{
 		return $this->model->panel()->url(true) . '/preview/' . $versionId;
-	}
-
-	/**
-	 * Returns the version ID name
-	 * @since 5.1.0
-	 */
-	public function versionId(): string
-	{
-		return match ($this->versionId) {
-			'compare' => 'compare',
-			default   => VersionId::from($this->versionId)->value()
-		};
 	}
 }
