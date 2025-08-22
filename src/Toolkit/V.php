@@ -2,6 +2,7 @@
 
 namespace Kirby\Toolkit;
 
+use Composer\Semver\Semver;
 use Countable;
 use Exception;
 use Kirby\Content\Field;
@@ -638,5 +639,12 @@ V::$validators = [
 	 */
 	'uuid' => function (string $value, string|array|null $type = null): bool {
 		return Uuid::is($value, $type);
-	}
+	},
+
+	/**
+	 * Checks if a version satisfies a (Composer) version constraint
+	 */
+	'version' => function (string $version, string $constraint): bool {
+		return Semver::satisfies($version, $constraint);
+	},
 ];
