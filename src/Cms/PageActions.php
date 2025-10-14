@@ -562,9 +562,9 @@ trait PageActions
 	/**
 	 * Deletes the page
 	 */
-	public function delete(bool $force = false): bool
+	public function delete(bool $force = false, bool $resortSiblings = true): bool
 	{
-		return $this->commit('delete', ['page' => $this, 'force' => $force], function ($page, $force) {
+		return $this->commit('delete', ['page' => $this, 'force' => $force], function ($page, $force) use ($resortSiblings) {
 			$old = $page->clone();
 
 			// keep the content in iummtable memory storage
@@ -581,7 +581,10 @@ trait PageActions
 
 			// delete all children individually
 			foreach ($old->childrenAndDrafts() as $child) {
-				$child->delete(true);
+				$child->delete(
+					force: true,
+					resortSiblings: false
+				);
 			}
 
 			// delete all versions,
@@ -591,7 +594,8 @@ trait PageActions
 
 			if (
 				$old->isListed() === true &&
-				$old->blueprint()->num() === 'default'
+				$old->blueprint()->num() === 'default' &&
+				$resortSiblings === true
 			) {
 				$old->resortSiblingsAfterUnlisting();
 			}
