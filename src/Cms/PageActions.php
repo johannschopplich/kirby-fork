@@ -575,12 +575,12 @@ trait PageActions
 			$page->uuid()?->clear();
 
 			// delete all files individually
-			foreach ($old->files() as $file) {
+			foreach ($page->files() as $file) {
 				$file->delete();
 			}
 
 			// delete all children individually
-			foreach ($old->childrenAndDrafts() as $child) {
+			foreach ($page->childrenAndDrafts() as $child) {
 				$child->delete(true);
 			}
 
@@ -593,7 +593,7 @@ trait PageActions
 				$old->isListed() === true &&
 				$old->blueprint()->num() === 'default'
 			) {
-				$old->resortSiblingsAfterUnlisting();
+				$page->resortSiblingsAfterUnlisting();
 			}
 
 			return true;
