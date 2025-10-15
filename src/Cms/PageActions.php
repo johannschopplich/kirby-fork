@@ -589,6 +589,9 @@ trait PageActions
 			// up the directory if it's empty
 			$old->versions()->delete();
 
+			// Delete the folder if it still exists
+			Dir::remove($page->root());
+
 			if (
 				$old->isListed() === true &&
 				$old->blueprint()->num() === 'default'
